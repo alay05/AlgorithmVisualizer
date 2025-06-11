@@ -7,8 +7,12 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center">
-  <h1 class="text-4xl font-bold mb-8">Algorithm Visualizer</h1>
-  <div class="space-x-4">
+  <h1 class="text-4xl font-bold mb-2">Algorithm Visualizer</h1>
+  <p class="text-lg text-gray-600 mb-10">by Andrew Lay</p>
+
+  <!-- Sorting Section -->
+  <h2 class="text-2xl font-semibold mb-4">Sorting Algorithms</h2>
+  <div class="space-x-4 mb-8">
     <a href="sorting_visualizer.html?algo=bubble" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
       Bubble Sort
     </a>
@@ -23,6 +27,14 @@
     </a>
     <a href="sorting_visualizer.html?algo=quick" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
       Quick Sort
+    </a>
+  </div>
+
+  <!-- Pathfinding Section -->
+  <h2 class="text-2xl font-semibold mb-4">Pathfinding Algorithms</h2>
+  <div class="space-x-4">
+    <a href="pathfinding_visualizer.html?algo=bfs" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+      Breadth-First Search (BFS)
     </a>
   </div>
 </body>
