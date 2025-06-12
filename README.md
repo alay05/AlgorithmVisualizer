@@ -19,5 +19,5 @@ Access the site via Vercel: https://algorithm-visualizer-two-hazel.vercel.app/
 ## Running Locally
 
 - Clone the repo
-- Run 'python3 -m http.server 8000' in your terminal
+- Run  `python3 -m http.server 8000` in your terminal
 - Open http://localhost:8000/ in your browser
