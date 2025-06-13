@@ -8,6 +8,8 @@ function createGrid() {
   grid.innerHTML = "";
   cells = [];
   shouldStop = false;
+  document.getElementById("noPathMsg").classList.add("hidden");
+  document.getElementById("dimOverlay").classList.add("hidden");
 
   for (let r = 0; r < rows; r++) {
     const row = [];
@@ -24,7 +26,7 @@ function createGrid() {
 
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
-      if (Math.random() < 0.25) {
+      if (Math.random() < 0.30) {
         cells[r][c].classList.add("wall");
       }
     }
@@ -96,11 +98,19 @@ async function bfs() {
         const cell = cells[nr][nc];
         if (!cell.classList.contains("end")) {
           cell.classList.add("visited");
+          if (shouldStop) return;
           await new Promise(res => setTimeout(res, 10));
           if (shouldStop) return;
         }
       }
     }
+  }
+
+  if (!prev[endR][endC]) {
+    document.getElementById("noPathMsg").classList.remove("hidden");
+    document.getElementById("dimOverlay").classList.remove("hidden");
+    setUIState("after");
+    return;
   }
 
   let cur = [endR, endC];
@@ -118,15 +128,67 @@ async function bfs() {
     if (!cell.classList.contains("start") && !cell.classList.contains("end")) {
       cell.classList.remove("visited");
       cell.classList.add("path");
+      if (shouldStop) return;
       await new Promise(res => setTimeout(res, 25));
+      if (shouldStop) return;
     }
+  }
+
+  setUIState("after");
+}
+
+function setUIState(state) {
+  const startBtn = document.getElementById("startBtn");
+  const randomizeBtn = document.getElementById("randomizeBtn");
+  const cancelBtn = document.getElementById("cancelBtn");
+  const resetBtn = document.getElementById("resetBtn");
+
+  if (state === "before") {
+    startBtn.classList.remove("hidden");
+    randomizeBtn.classList.remove("hidden");
+    cancelBtn.classList.add("hidden");
+    resetBtn.classList.add("hidden");
+  } else if (state === "during") {
+    startBtn.classList.add("hidden");
+    randomizeBtn.classList.add("hidden");
+    cancelBtn.classList.remove("hidden");
+    resetBtn.classList.add("hidden");
+  } else if (state === "after") {
+    startBtn.classList.add("hidden");
+    randomizeBtn.classList.add("hidden");
+    cancelBtn.classList.add("hidden");
+    resetBtn.classList.remove("hidden");
   }
 }
 
-document.getElementById("startBtn").addEventListener("click", bfs);
-document.getElementById("resetBtn").addEventListener("click", () => {
-  shouldStop = true;
-  createGrid();
+// Button event handlers
+document.getElementById("startBtn").addEventListener("click", async () => {
+  setUIState("during");
+  await bfs();
 });
 
-window.addEventListener("DOMContentLoaded", createGrid);
+document.getElementById("randomizeBtn").addEventListener("click", () => {
+  createGrid();
+  setUIState("before");
+});
+
+document.getElementById("cancelBtn").addEventListener("click", () => {
+  shouldStop = true;
+  setTimeout(() => {
+    createGrid();
+    setUIState("before");
+  }, 10);
+});
+
+document.getElementById("resetBtn").addEventListener("click", () => {
+  shouldStop = true;
+  setTimeout(() => {
+    createGrid();
+    setUIState("before");
+  }, 0);
+});
+
+window.addEventListener("DOMContentLoaded", () => {
+  createGrid();
+  setUIState("before");
+});

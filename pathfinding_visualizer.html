@@ -7,17 +7,16 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     .cell {
-        width: 20px;
-        height: 20px;
-        background-color: white;
-        border: 1px solid #ccc;
-        text-align: center;
-        font-size: 12px;
-        font-weight: bold;
-        line-height: 20px;
-        user-select: none;
+      width: 20px;
+      height: 20px;
+      background-color: white;
+      border: 1px solid #ccc;
+      text-align: center;
+      font-size: 12px;
+      font-weight: bold;
+      line-height: 20px;
+      user-select: none;
     }
-
     .wall { background-color: black !important; }
     .start { background-color: green !important; color: white; }
     .end { background-color: red !important; color: white; }
@@ -27,20 +26,35 @@
 </head>
 <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-4">
   <h1 id="pageTitle" class="text-3xl font-bold mb-5">Loading...</h1>
+
   <div class="mb-6 space-x-2">
-    <button id="startBtn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">Start</button>
-    <button id="resetBtn" class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded">Reset</button>
+    <button id="startBtn" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Start</button>
+    <button id="randomizeBtn" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Randomize</button>
+    <button id="cancelBtn" class="hidden bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Cancel</button>
+    <button id="resetBtn" class="hidden bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Reset</button>
   </div>
-  <div class="bg-white shadow rounded-2xl p-4 mb-12 flex items-center justify-center">
+
+  <div class="relative bg-white shadow rounded-2xl p-4 mb-12 flex items-center justify-center overflow-hidden">
+    <!-- Dim Overlay -->
+    <div id="dimOverlay"
+        class="absolute inset-0 bg-black bg-opacity-40 backdrop-blur-sm z-10 hidden rounded-2xl pointer-events-none">
+    </div>
+
+    <!-- Message Overlay -->
+    <div id="noPathMsg"
+        class="absolute z-20 text-white font-bold text-xl hidden flex items-center justify-center inset-0 pointer-events-none">
+    No Path Found
+    </div>
+
+    <!-- The grid -->
     <div id="grid"
-        class="grid gap-0.5"
+        class="grid gap-0.5 z-0"
         style="grid-template-columns: repeat(20, 20px);">
     </div>
   </div>
 
-
   <a href="index.html"
-    class="absolute bottom-4 left-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow">
+     class="absolute bottom-4 left-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow">
     ← Back
   </a>
 
@@ -57,13 +71,12 @@
     document.body.appendChild(script);
 
     const titleMap = {
-        bfs: "Breadth-First Search (BFS) Visualization",
-        dfs: "Depth-First Search (DFS) Visualization",
-        dijkstra: "Dijkstra's Algorithm Visualization",
-        astar: "A* Search Visualization"
+      bfs: "Breadth-First Search (BFS) Visualizer",
+      dfs: "Depth-First Search (DFS) Visualizer",
+      dijkstra: "Dijkstra's Algorithm Visualizer",
+      astar: "A* Search Visualizer"
     };
     document.getElementById("pageTitle").textContent = titleMap[algo] || "Pathfinding Visualizer";
   </script>
 </body>
 </html>
-
