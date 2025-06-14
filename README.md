@@ -15,6 +15,8 @@ Access the site via Vercel: https://algorithm-visualizer-two-hazel.vercel.app/
 - Pathfinding Algorithms:
   - Breadth-First Search (BFS)
   - Depth-First Search (DFS)
+  - Dijkstra's Algorithm
+  - A* Search
 
 ## Running Locally
 
